@@ -1,0 +1,28 @@
+const { Builder, By, until } = require('selenium-webbrowser');
+
+async function testFunction() {
+    const driver = await new Builder()
+    .forBrowser('chrome')
+    .build();
+
+    try {
+        await driver.get('https://example.com');
+
+        const usernameButton = await driver.wait(until.elementLocated(By.id("username")), 10000);
+
+        await driver.wait(until.elementIsVIsible("usernameButton"), 10000);
+
+        await usernameButton.sendKeys("test username");
+
+        const loginButton = await driver.wait(until.elementLocated(By.id("login-btn")), 10000);
+
+        await driver.wait(until.elementIsVisible("loginButton"), 10000);
+
+        await loginButton.click();
+
+
+
+    } finally {
+        await driver.quit();
+    }
+}
