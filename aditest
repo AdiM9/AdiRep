@@ -1,28 +1,37 @@
-const { Builder, By, until } = require('selenium-webbrowser');
 
-async function testFunction() {
-    const driver = await new Builder()
-    .forBrowser('chrome')
-    .build();
+const { Builder, By, until } = require('selenium-webdriver');
 
-    try {
-        await driver.get('https://example.com');
+async function adiTest() {
 
-        const usernameButton = await driver.wait(until.elementLocated(By.id("username")), 10000);
+const driver = await new Builder().forBrowser('chrome').build();
+// implicit wait-usually not a good practice to mix with explicit waits
+await driver.manage().setTimeouts({implicit: 5000});
 
-        await driver.wait(until.elementIsVIsible("usernameButton"), 10000);
+try {
 
-        await usernameButton.sendKeys("test username");
+await driver.get('https://example.com');
 
-        const loginButton = await driver.wait(until.elementLocated(By.id("login-btn")), 10000);
+const usernameInput = await driver.wait(locateElement(By.id('username')), 6000);
+await driver.wait(elementIsVisible(usernameInput), 6000);
 
-        await driver.wait(until.elementIsVisible("loginButton"), 10000);
+//if I need to clear the field before typing
+await usernameInput.clear();
+await usernameInput.sendKeys('adimacic123');
 
-        await loginButton.click();
+const passwordInput = await driver.wait(elementLocated(By.id('pwd-field')), 7000);
+await pdriver.wait(elementIsVisible(passwordInput), 7000);
+await passwordInput.sendKeys('123was');
 
+const loginbtn = await driver.wait(locateElement(By.id('loggobth')), 6000);
+await driver.wait(elementIsVisible('loginbtn'), 6000);
+await loginbtn.click();
 
+//if I need to verify successfull login
+await driver.wait(until.urlContains('/dashboard'), 6000);
 
-    } finally {
-        await driver.quit();
-    }
+} finally {
+    await driver.quit();
 }
+
+}
+adiTest().catch(console.error);
